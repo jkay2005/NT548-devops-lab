@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world-service
+spec:
+  type: NodePort # Mở một cổng ngẫu nhiên (hoặc cố định) ở máy tính
+  selector:
+    app: hello-world
+  ports:
+    - protocol: TCP
+      port: 80 # Port của Service
+      targetPort: 3000 # Port của Container
+      nodePort: 30080 # Port mở ra máy tính(từ 30000 - 32767)

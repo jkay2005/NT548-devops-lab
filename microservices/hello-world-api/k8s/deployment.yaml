@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-deployment
+spec:
+  replicas: 2 # Chạy 2 bản sao của app để đảm bảo tính sẵn sàng cao
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+        - name: hello-world-container
+          image: hello-world-api:v1
+          imagePullPolicy: Never # Bảo K8s lấy image dưới máy, không lên mạng tải
+          ports:
+            - containerPort: 3000

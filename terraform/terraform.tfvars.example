@@ -1,0 +1,11 @@
+aws_region           = "ap-southeast-1"
+project_name         = "nt548-devops-lab"
+environment          = "lab"
+my_ip_cidr           = "203.0.113.10/32"
+
+public_subnet_cidrs  = ["10.0.1.0/24"]
+private_subnet_cidrs = ["10.0.101.0/24"]
+
+# Optional
+# key_name = "your-keypair"
+# availability_zones = ["ap-southeast-1a"]

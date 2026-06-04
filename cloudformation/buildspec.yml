@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.x
+    commands:
+      - echo "Dang cai dat cfn-lint va taskcat..."
+      - pip install cfn-lint taskcat
+  pre_build:
+    commands:
+      - echo "Kiem tra cu phap CloudFormation bang cfn-lint..."
+      - cfn-lint cloudformation/templates/network.yaml
+  build:
+    commands:
+      - echo "Chay Taskcat de test qua trinh tao stack tren AWS..."
+      - taskcat test run
+  post_build:
+    commands:
+      - echo "Kiem tra hoan tat!"

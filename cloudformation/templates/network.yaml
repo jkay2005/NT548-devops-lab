@@ -143,7 +143,6 @@ Resources:
   MyEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      # Lay tu dong AMI Amazon Linux 2 moi nhat (ap dung duoc moi Region)
       ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2}}'
       InstanceType: t3.micro
       SubnetId: !Ref PublicSubnet

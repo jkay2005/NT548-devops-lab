@@ -5,12 +5,11 @@ phases:
     runtime-versions:
       python: 3.11
     commands:
-      - echo "Tao moi truong ao va cap nhat pip, setuptools, wheel..."
+      - echo "Tao moi truong ao..."
       - python -m venv venv
       - . venv/bin/activate
-      - pip install --upgrade pip setuptools wheel
-      - echo "Cai dat Cython de ho tro bien dich PyYAML..."
-      - pip install "Cython<3.0" pyyaml==6.0.1
+      - echo "Cap nhat pip va cai dat cac cong cu ho tro build (Cython, wheel, setuptools)..."
+      - pip install --upgrade pip setuptools wheel Cython
       - echo "Dang cai dat cfn-lint va taskcat..."
       - pip install cfn-lint taskcat
   pre_build:

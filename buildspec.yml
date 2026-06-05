@@ -5,13 +5,12 @@ phases:
     runtime-versions:
       python: 3.11
     commands:
-      - echo "Tao moi truong ao..."
+      - echo "Tao moi truong ao va cap nhat pip..."
       - python -m venv venv
       - . venv/bin/activate
-      - echo "Cap nhat pip va cai dat cac cong cu ho tro build (Cython, wheel, setuptools)..."
-      - pip install --upgrade pip setuptools wheel Cython
-      - echo "Dang cai dat cfn-lint va taskcat..."
-      - pip install cfn-lint taskcat
+      - pip install --upgrade pip
+      - echo "Dang cai dat setuptools, cfn-lint va taskcat..."
+      - pip install setuptools cfn-lint taskcat
   pre_build:
     commands:
       - echo "Kiem tra cu phap CloudFormation bang cfn-lint..."

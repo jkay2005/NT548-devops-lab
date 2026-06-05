@@ -1,13 +1,12 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'CloudFormation Template cho Lab 1: VPC, Public/Private Subnets,
-  IGW, NAT Gateway'
+Description: 'CloudFormation Template cho Lab 1: VPC, Public/Private Subnets, IGW, NAT Gateway'
 
 Resources:
   # 1. Tao VPC
   MyVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 10.0.0.0/16
+      CidrBlock: '10.0.0.0/16'
       EnableDnsSupport: true
       EnableDnsHostnames: true
       Tags:
@@ -19,7 +18,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref MyVPC
-      CidrBlock: 10.0.1.0/24
+      CidrBlock: '10.0.1.0/24'
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -30,7 +29,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref MyVPC
-      CidrBlock: 10.0.101.0/24
+      CidrBlock: '10.0.101.0/24'
       Tags:
         - Key: Name
           Value: Lab1-Private-Subnet
@@ -63,7 +62,7 @@ Resources:
     DependsOn: AttachGateway
     Properties:
       RouteTableId: !Ref PublicRouteTable
-      DestinationCidrBlock: 0.0.0.0/0
+      DestinationCidrBlock: '0.0.0.0/0'
       GatewayId: !Ref InternetGateway
 
   PublicSubnetRouteTableAssociation:
@@ -75,11 +74,13 @@ Resources:
   # 6. Tao NAT Gateway cho Private Subnet (Can Elastic IP)
   NatElasticIP:
     Type: AWS::EC2::EIP
+    DependsOn: AttachGateway
     Properties:
       Domain: vpc
 
   NatGateway:
     Type: AWS::EC2::NatGateway
+    DependsOn: AttachGateway
     Properties:
       AllocationId: !GetAtt NatElasticIP.AllocationId
       SubnetId: !Ref PublicSubnet
@@ -100,7 +101,7 @@ Resources:
     Type: AWS::EC2::Route
     Properties:
       RouteTableId: !Ref PrivateRouteTable
-      DestinationCidrBlock: 0.0.0.0/0
+      DestinationCidrBlock: '0.0.0.0/0'
       NatGatewayId: !Ref NatGateway
 
   PrivateSubnetRouteTableAssociation:
@@ -119,7 +120,7 @@ Resources:
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
-          CidrIp: 0.0.0.0/0 #co the thay ip nay
+          CidrIp: '0.0.0.0/0'
       Tags:
         - Key: Name
           Value: Lab1-Public-SG
@@ -139,7 +140,7 @@ Resources:
         - Key: Name
           Value: Lab1-Private-SG
 
-  # 10. Tao EC2 t3.micro đe sau nay M3 cai K8s/Minikube
+  # 10. Tao EC2 t3.micro de sau nay M3 cai K8s/Minikube
   MyEC2Instance:
     Type: AWS::EC2::Instance
     Properties:

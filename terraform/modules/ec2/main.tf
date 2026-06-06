@@ -27,6 +27,13 @@ resource "aws_instance" "private_node" {
   vpc_security_group_ids = [var.private_node_sg_id]
   key_name               = var.key_name
 
+  user_data = <<-EOF
+    #!/bin/bash
+    set -e
+    # Install K3s (single-node) for lightweight Kubernetes
+    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--write-kubeconfig-mode=644" sh -
+EOF
+
   tags = merge(var.tags, {
     Name = "${local.name_prefix}-private-node"
     Role = "k3s-node"

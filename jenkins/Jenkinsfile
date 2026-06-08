@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/jkay2005/NT548-devops-lab.git'
+            }
+        }
+        
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'sonar-scanner'
+                    withSonarQubeEnv('sonar-server') {
+                        sh "${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=hello-world-api \
+                        -Dsonar.sources=microservices/hello-world-api \
+                        -Dsonar.host.url=http://sonarqube-server:9000"
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t hello-world-api:latest microservices/hello-world-api"
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sh "kubectl apply -f microservices/hello-world-api/k8s/deployment.yaml"
+                    sh "kubectl apply -f microservices/hello-world-api/k8s/service.yaml"
+                }
+            }
+        }
+    }
+}
